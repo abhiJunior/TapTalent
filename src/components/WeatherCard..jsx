@@ -8,7 +8,7 @@ const WeatherCard = ({ city, temp, condition, humidity, wind,icon }) => {
   
   // 1. Check if this city is in the favorites list in Redux
   const favorites = useSelector((state) => state.weather.favorites);
-  const unit = useSelector((state) => state.weather.unit);
+  const {unit}= useSelector((state) => state.settings);
   const isFavorite = favorites.includes(city);
 
   // 2. Helper to get the correct icon based on condition string
