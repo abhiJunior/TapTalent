@@ -1,6 +1,7 @@
 // src/store/weatherSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { fetchCurrentWeather, fetchCitySuggestions, fetchWeatherForecast } from '../api/api.js';
+import { LampWallDown } from 'lucide-react';
 
 export const getCitySuggestions = createAsyncThunk(
   'weather/fetchSuggestions',
@@ -41,22 +42,20 @@ export const getForecastDetail = createAsyncThunk(
 const weatherSlice = createSlice({
   name: 'weather',
   initialState: {
-    unit: 'metric',
+    
     // Load favorites from localStorage on startup
     favorites: JSON.parse(localStorage.getItem('favorites')) || [], 
     weatherData: {},
     forecastData: {},
     searchResults: [], 
+    lastUpdated : null,
     searchLoading: false,
   },
   reducers: {
     clearSearch: (state) => {
       state.searchResults = [];
     },
-    // Add this to switch between Celsius (metric) and Fahrenheit (imperial)
-    setUnit: (state, action) => {
-      state.unit = action.payload;
-    },
+   
     // Add this to handle favoriting/unfavoriting
     toggleFavorite: (state, action) => {
       const cityName = action.payload;
@@ -83,7 +82,11 @@ const weatherSlice = createSlice({
       })
       .addCase(getWeatherDetail.fulfilled, (state, action) => {
         // Use city name as the key so we don't get duplicates in our dashboard
-        state.weatherData[action.payload.name] = action.payload;
+        state.weatherData[action.payload.name] = {
+          ...action.payload,
+          timestamp : Date.now()
+        }
+        state.lastUpdated = Date.now()
       })
 
       .addCase(getForecastDetail.fulfilled,(state,action)=>{
