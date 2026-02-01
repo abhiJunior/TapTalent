@@ -60,7 +60,7 @@ const CitySearch = () => {
     }
   };
 
-  // Get recent searches from localStorage (optional enhancement)
+  
   const getRecentSearches = () => {
     try {
       const recent = localStorage.getItem('recentSearches');
