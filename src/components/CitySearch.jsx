@@ -91,7 +91,7 @@ const CitySearch = () => {
   const showNoResults = isOpen && query.length >= 2 && !searchLoading && searchResults.length === 0;
 
   return (
-    <div ref={searchRef} className="relative w-full md:w-96">
+    <div ref={searchRef} className={`relative w-full md:w-96 ${isOpen ? "z-60": "z-auto"}`}>
       {/* Search Input */}
       <div className="relative group">
         <input 
@@ -164,7 +164,7 @@ const CitySearch = () => {
 
           {/* Search Suggestions */}
           {showSuggestions && (
-            <ul className="max-h-80 overflow-y-auto py-1">
+            <ul className="max-h-80 overflow-y-auto py-1 z-50">
               {searchResults.map((city, index) => {
                 const isInFavorites = favorites.includes(city.name);
                 
